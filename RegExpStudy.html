@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>RegExp Study</title>
+  </head>
+  <body>
+    <!-- 例题：敏感词过滤 （起始位 html：line 56）-->
+    <h3>例题：敏感词过滤</h3>
+    <textarea id="sWords" rows="10" cols="40">FucK you bitch</textarea>
+    <br />
+    <input type="button" value="过滤" onclick="sWords()" />
+    <br />
+    <textarea id="sWordsAfter" rows="10" cols="40"></textarea>
+    <!-- 敏感词过滤  完 -->
+
+    <!-- 例题：过滤 HTML 标签 -->
+    <h3>例题： 过滤 HTML 标签.</h3>
+    <textarea id="textTag" cols="40" rows="10"></textarea>
+    <br />
+    <input
+      type="button"
+      id="textTagBtn"
+      value="转换 HTML 标签"
+      onclick="deleteTag()"
+    />
+    <br />
+    <textarea id="textTagAfter" cols="40" rows="10"></textarea>
+    <!-- 过滤 HTML 标签  完-->
+
+    <!-- 邮箱校验 -->
+    <h3>邮箱校验</h3>
+    <input type="text" name="" id="mailInput" />
+    <input type="button" value="检验邮箱" id="mailCheck" />
+    <p id="mailCheckResault"></p>
+    <!-- 邮箱校验 完-->
+
+    <script>
+      //****** 字符串基本操作 ******
+      /*    1: search:    字符串.search(RegExp): 查找一个字符串，找到第一个符合的字符串并返回位置，找不到返回-1。
+       *    2: substring: 字符串.substring(开始位置，结束位置): 获取子字符串 位置用数字来表示，起始位置为 0。当不标注结束位置时，会从起始位置一直到最后一位。
+       *    3: charAt:    字符串.charAt(位置); 获取特定位置的字符或元素。
+       *    4: split:     字符串.split(RegExp); 分割字符串，并获取数组。
+       *    5: replace:   字符串.replace(RegExp,"用于替换的元素"); 利用我们自己规定的RegExp 找到要替换的元素 来用用于替换的元素进行替换。
+       *    6：match：    字符串.match(RegExp); 用正则表达式找出字符串中符合我们规定的正则的元素返回一个object对象。
+       */
+
+      //****** 最简单的正则表达式 ******
+      //创建一个正则 let re = new RegExp(); "a" 代表了 字符 a， 这种书写方式叫做JS风格。
+      //JS是大小写敏感语言，如果出现 A 则需要用到表达式中的 ignore 来忽略大小写。 表达：let re = new RegExp("a", "i"); i 是缩写 ignore， 帮助忽略大小写。
+      //let re = /a/i; perl 表达式
+      //let re = new RegExp("A", "i"); // 也可以用 let re = /a/;来简化声明正则表达式。叫做：perl风格。 perl语言最早提出了正则表达式
+      let re = /A/i;
+      //创建一个变量。
+      let str = "abcdefi"; //JS是大小写敏感语言，如果出现 A 则需要用到表达式中的 ignore 来忽略大小写。 表达：let re = new RegExp("a", "i"); i 是缩写 ignore， 帮助忽略大小写。
+      //利用search方式和我们之前所创建的 re 的正则表达式的方式来搜索。
+      console.log(str.search(re));
+
+      //****** 基本的转义字符 ******
+      /*知识点： 1:转义字符 \d 数字 = [0-9]
+       *        2:转义字符 \w 英文，数字，下划线 = [a-z0-9_]。
+       *        3:转义字符 \s 空白字符， 包括空格 tab 不可打印不可显示的字符。
+       *        4:转义字符 \D 除了数字之外，相当于 [^0-9]。
+       *        5:转义字符 \W 除了英文，数字，下划线之外 = [^a-z0-9_]。
+       *        6:转义字符 \S 除了空白字符之外， 包括空格 tab 不可打印不可显示的字符。
+       *        7:转义字符 . 任意字符 （尽量不要用，太容易出问题了）
+       */
+
+      //****** 基本的量词 ******
+      //什么是量词：量词就是 个数 。
+      /*基本量词定义：1: {n} => 表示正好出现 n 次。
+       *                例：正好出现八位的电话号码：/\d{8}/.
+       *                    因为电话第一位不会是 0 开始， 所以要写成/[1-9]\d{7}/ 意思是第一位是1-9的数字后面加上7位数字(是7 而不是8 因为第一位已经被定义成[1-9]了)。
+       *                    解：/[1-9]\d{7}/
+       *             2: {n,m} => 表示出现最少 n 次， 最多出现 m 次。
+       *                例：检查 QQ 号。 （QQ号最少5位，最多11位）。
+       *                    QQ第一位不为0，所以写成[1-9],因为QQ号是数字所以写成\d,后面减去第一位后写成{4-10}。
+       *                    解： /[1-9]\d{4,10}/
+       *             3：{n,} => 表示出现最少 n 次， 最多不限。
+       *             4: + 等价于 {1，}， 最少出现一次， 最多不限。
+       *             5: ? 等价于 {0，1}， 最少出现 0 次，出现一次。
+       *                例：带区号或分机号的电话号码(2-4位的分机号)。
+       *                    (1) :区号开始为 0，之后为2-3 位数字：0\d{2-3}
+       *                    (2) :电话开始不为0，之后为 7 位数字：[1-9]\d{7}
+       *                    (3) :分机号为2-4位数字 \d{2-4}
+       *                    (4) :用括号分别将 区号 电话号 分机号包裹进行分组 (0\d{2-3})([1-9]\d{7})(\d{2-4})
+       *                    (5) :因为区号和分机号不一定有不一定用 所以用？表示可有可无。 (0\d{2-3})?([1-9]\d{7})(\d{2-4})?
+       *                    解  : /(0\d{2,3})?([1-9]\d{7})(\d{2-4})?/
+       *             6: * 等价于{0，} 表示至少 0个，至多不限 这个不推荐使用！！！
+       *                例：找出 STR="112 fff 3dcf olo"中所有的数字。
+       *                    如果这里使用/\d * /g 来找，字母也会被视为出现过 0 次的数字， 会被打印出来。
+       *                    一般都会使用 + 即：{1，}来搜索 这样数字元素至少出现一次才会被打印。
+       */
+
+      //****** 符号 ******
+      /*基本符号： ^ : 在方括号中时代表：除了什么什么之外。 [^a-z]表示除了 a-z的字母之外， [^0-9] 除了0-9的数字之外。例题3.
+       *               在方括号之外时代表 行首（字符串开头）;
+       *          $ : 代表了 行尾（字符串结尾）。
+       *              例：在要被校验的字符串前后分别加上 行首 和 行尾 符 RegExp.test(^ 要校验的字符串 $)可以对整段字符串进行整体校验。
+       */
+
+      //****** 找出字符串中出现的第一个数字 ******
+      //知识点： 转义 \d 意义： 数字。
+      let numStr = "adsf 43 23 vcxzxcv";
+      //let numStrReg = new RegExp("", "\d"); // 不知道如何用JS书写方式用\d来找第一个出现的数字。
+      let numStrReg = /\d/;
+      console.log(numStr.search(numStrReg));
+
+      //****** 找出所有的数字 ******
+      //知识点：match， global, + 量词
+      //match：把所有匹配的元素全部提取出来
+      let matchStr = "asdf 34 656 cvs33";
+      let matchReg = /\d+/g;
+      // g: 是global的简写，（全局匹配）。如果不添加 g 则只会找到第一个数字便停止。
+      /* + 量词，个数，若干（多少都可以）。加了量词后对比 a b 即一个数字和之后的若干元素如果是数字则放到同一个引号中，
+       *如果遇到不是同类元素则另起一个引号。 这样我们就得到了 ["34","656","33"], 如果不加 + 量词，
+       *则会每一个数字返回时单独赋予一个引号，结果则是["3","4","6","5","6","3","3"];。
+       */
+      console.log(matchStr.match(matchReg));
+
+      //****** 替换指定字母为指定数字（替换所有 a 成为 0） ******
+      //知识点： replace
+      let replaceStr = "abc aaa erw";
+      let replaceReg = /a/g;
+      //这里不能用 + 量词， 如果使用则会把 aaa 变成一个 0 而不是 000.
+      console.log(replaceStr.replace(replaceReg, 0));
+
+      //****** 敏感词过滤 （起始位 html：line 11）********
+      //知识点： | 这个竖线是 或 的意思。  /fuck|shit|bitch/g全局 i忽略：多种情况进行考虑时可以进行考虑条件连写： /fuck|shit|bitch/gi
+      //错误：1：注意拼写，2：testarea 不用 innerHTML 用 value， 3：替换直接用 replace 别总想着 match。
+      let sWordsBefore = document.getElementById("sWords");
+      let sWordsAfter = document.getElementById("sWordsAfter");
+      function sWords() {
+        let sWordsReg = /fuck|shit|bitch/gi;
+        sWordsAfter.value = sWordsBefore.value.replace(sWordsReg, "***");
+      }
+
+      //****** 找出关键字并用 * 来替换 ******
+      /*知识点：[] 元字符： 方括号中出现的任意一个元素都可以符合要求。 例：[abc]pc => apc √，bpc √， cpc √。例题1
+       *元字符还可以指定元素范围：[a-z] 全部字母，[0-9] 0-9的数字。例题2
+       * ^ : 在方括号中时代表：除了什么什么之外。 [^a-z]表示除了 a-z的字母之外， [^0-9] 除了0-9的数字之外。例题3.
+       *     在方括号之外时代表 行首（字符串开头）;
+       *多种情况匹配：[a-z0-9]:这里将所有字母和数字的形式都包括起来了。例题4
+       */
+      //想法，如何再用 * 替换掉所有字母的同时 用 # 来替换掉所有的数字。
+      //例题1：用 * 替换掉 apc xpc ppc
+      let anyStr = "apc xpc ppc bpc spc tpc";
+      let anyReg = /[apx]pc/gi;
+      console.log(anyStr.replace(anyReg, "*"));
+      //例题2：用 * 替换掉所有的字母
+      let randomStr = "Kgh62j146gh54K6g52kg1h65jk1";
+      let chengeLetterReg = /[a-z]/gi; // 如果不用 i 大写的字母不会被替换
+      console.log(randomStr.replace(chengeLetterReg, "*"));
+      //例题3：剔除所有的中文字母。
+      let mixStr = "中文是chinese，我们做presentation";
+      let mixStrReg = /[^a-z]/gi;
+      //这里利用了 ^ （除了什么什么之外, [^a-z] 除了a-z的字母之外） 来剔除了所有的中文。
+      console.log(mixStr.replace(mixStrReg, "*"));
+      //例题4： 将所有的字母和数字用 * 替代。
+      let myNum = "My phone number is : 505-623-1234";
+      let myNumReg = /[a-z0-9]/gi;
+      console.log(myNum.replace(myNumReg, "*"));
+
+      //****** 过滤 HTML 标签 (html: line 20, script line 95)******
+      /*知识点：1. " . " => RegExp 中 . 代表任意字符。
+       *       2.  正则表达式 "贪婪"： 在匹配过程中 正则表达式会尽可能多尽可能长的去匹配可被匹配的元素。
+       *           所以当用 /<.+>/g 来匹配 <p>hello</p> 时候就会从第一个小于尖括号一直全选至最后一个大于尖括号。
+       *       3.  通过 HTML代码提取内容时可以使用， /<[^<>]+>/g 然后用空字符串进行替换。
+       *           意思是从< 到 > 之间 除了 <>（[^<>]） 之外的（即 定义在 <> 之间 只要有 <> 就不满足条件）。因为有这样的定义所以<p>=></p>之间出现了>< 所以不能被选取，
+       *           从而重新取值，最后满足条件的只有 <p>,因为 RegExp 最后定义了 g 以至于 </p> 也能被选取到。
+       */
+      let hasTag = document.getElementById("textTag");
+      let newTag = document.getElementById("textTagAfter");
+
+      hasTag.value = "<p>hello you <h3>lol</h3> <img src='../../'> </p>";
+      function deleteTag() {
+        let newTagReg = /<[^<>]+>/g;
+        newTag.value = hasTag.value.replace(newTagReg, "");
+      }
+
+      //****** 邮箱校验 ******
+      /*知识点：1：@ 直接用 @ 表示。
+       *       2：. 因为在RegExp中有含义所以用 \. 来表示。
+       *       3: + 千万不要忘记 + 不然只会检测单个符合要求的字符，这样会导致正常邮箱也不能被显示为合法邮箱。
+       *       4: RegExp.test(value); 返回 bool。只要一部分符合要求，就会返回 true。！！！
+       *         这个是利用我们所写的 RegExp 规则来检测一个值的一部分是否符合规则，并返回布尔值。
+       *     ！！但是这样可以检测邮箱但是 因为缺少行首 行尾标识符会导致（---是么king@163.com）也会被认定为是一个合法邮箱，这样是错误的。
+       *       5: 加入行首，行尾标志对整个字符串进行校验。
+       */
+      let mailInput = document.getElementById("mailInput");
+      let mailCheckResault = document.getElementById("mailCheckResault");
+      let mailCheck = document.getElementById("mailCheck");
+
+      mailCheck.onclick = function checkEmail() {
+        let emailReg = /^(www\.)?\w+@([a-z0-9]+)\.([a-z]+)$/gi;
+        if (emailReg.test(mailInput.value)) {
+          mailCheckResault.innerHTML = "合法邮箱";
+        } else {
+          mailCheckResault.innerHTML = "非法邮箱";
+        }
+      };
+    </script>
+  </body>
+</html>
