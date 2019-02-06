@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>template string</title>
+  </head>
+  <body>
+    <script>
+      //****** template string 模板字符串 ******
+      /* 知识点： 1: ` 反引号是在建立模板字符串时用来包括模板字符串的， 反引号可以进行换行而不会报错。
+       *         2: ${引用量}： 这个的作用是在被 ` 反引号包裹的模板字符串中 通过使用 ${引用量}
+       *           可以在不重新开始新的字符模板的情况下(即：同一个字符模板中)，插入引用量。
+       *         3: `这里是模板1 ${模板1引用量 + `这里是模板2 ${模板2引用量}`}`。 在模板中我们可以嵌套多个模板。
+       *
+       */
+      // 例： 制作一个模板
+      //
+      // ES5: 模板字符串
+      let title = "brand new amazon category";
+      var tplES5 = "<div>" + "<span>" + title + "</span>" + "</div>";
+      console.log(tplES5);
+      //
+      // ES6: 模板字符串
+      let tplES6 = `
+      <div>
+        <span>
+          ${title}
+        </span>
+      </div>
+      `;
+      console.log(tplES6);
+      //ES6：模板字符串的嵌套
+      let tplIntpl = `
+      <div>
+        <span>
+          ${title + `<span>${2016}</span>`}
+        </span>
+      </div>
+      `;
+      console.log(tplIntpl);
+    </script>
+  </body>
+</html>

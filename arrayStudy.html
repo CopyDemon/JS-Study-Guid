@@ -13,11 +13,16 @@
        *
        *      2:filter: let || const var = array.filter(function(value, index, index times array)){if(conditation){return true}};
        *
-       *      3:map:
+       *      3:map:    let || const var = array.map(function(value,index index times array)){return value};
        *
        *      4:sort:
        *
        *      5:reduce:
+       */
+
+      /* ES6
+       *  let const var str = array.prop( (value, index, index times array) => value, index, index times array);
+       *
        */
 
       const companies = [
@@ -118,6 +123,23 @@
       //----------------------------------------------------------------------------------------------------
       //
       // map
+      // 例：将所有的公司名字放进一个单独的 数组 中。
+      // ES5：
+      // const companyName = companies.map(function(company, index, array) {
+      //   return company.name;
+      // });
+      // console.log(companyName);
+      //
+      // ES6:
+      // const companyName = companies.map(company => company.name);
+      // console.log(companyName);
+      // 例:找到所有存在十年或十年以上的公司的名称。
+      const companyLastTenYears = companies.map(function(company, index) {
+        // if (company.end - company.start >= 10) {
+        //   return company.name;
+        // }
+      });
+      console.log(companyLastTenYears);
     </script>
   </body>
 </html>
