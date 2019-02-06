@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Array Study</title>
+  </head>
+  <body>
+    <script>
+      //****** Array ******
+      /*方式:  1:forEach: array.forEach(function("value", "index", "index times array"){return 要查询的值});
+       *
+       *      2:filter: let || const var = array.filter(function(value, index, index times array)){if(conditation){return true}};
+       *
+       *      3:map:
+       *
+       *      4:sort:
+       *
+       *      5:reduce:
+       */
+
+      const companies = [
+        { name: "Company One", category: "Finance", start: 1981, end: 2004 },
+        { name: "Company Two", category: "Retail", start: 1992, end: 2008 },
+        { name: "Company Three", category: "Auto", start: 1999, end: 2007 },
+        { name: "Company Four", category: "Retail", start: 1989, end: 2010 },
+        { name: "Company Five", category: "Tech", start: 2009, end: 2014 },
+        { name: "Company Six", category: "Finance", start: 1987, end: 2010 },
+        { name: "Company Seven", category: "Auto", start: 1986, end: 1996 },
+        { name: "Company Eight", category: "Tech", start: 2011, end: 2016 },
+        { name: "Company Nine", category: "Retail", start: 1981, end: 1989 }
+      ];
+
+      const ages = [33, 12, 20, 16, 5, 54, 21, 44, 61, 13, 15, 45, 64, 32];
+
+      // 例：在数组 companies 中对比 for循环  和 forEach循环。
+      //for循环方式:
+      //   for (i = 0; i < companies.length; i++) {
+      //     console.log(companies[i]);
+      //   }
+      // forEach循环:
+      //   companies.forEach(function(company, index, array) {
+      //     console.log(companies[index]);
+      //   });
+      //----------------------------------------------------------------------------------------------------
+      // 例： filter VS for循环
+      // for 循环 找到年龄大于18岁可以饮酒的人。
+      //   let canDrink = [];
+      //   for (let i = 0; i < ages.length; i++) {
+      //     if (ages[i] >= 18) {
+      //       canDrink.push(ages[i]);
+      //     }
+      //   }
+      //   console.log(canDrink);
+      //
+      // 例：
+      // 用 filter 来找到年龄大于 18 可以饮酒的人。
+      // ES5:
+      //   const canDrink = ages.filter(function(age) {
+      //     // if (age > 18) {
+      //     //   return true;
+      //     // }
+      //     // 或者这样简写
+      //     return age > 18;
+      //   });
+      //   console.log(canDrink);
+      // ES6:
+      //   const canDrink = ages.filter(age => age > 18);
+      //   console.log(canDrink);
+      //
+      // 例：
+      // 用 filter 来找到所有是 retail 的公司。
+      // ES5:
+      //   const isRetail = companies.filter(function(company, index) {
+      //     if (company.category === "Retail") {
+      //       return true;
+      //     }
+      //   });
+      //   console.log(isRetail);
+      // ES6:
+      //   const isRetail = companies.filter(
+      //     company => company.category == "Retail"
+      //     //这里单独定义的 company 可视为指定的是单个的数组元素 即： for循环中的 companies[i];
+      //   );
+      //   console.log(isRetail);
+      //
+      // 例：
+      // 用 filter 来找到所有 80年代的公司。
+      // ES5:
+      //   const eCompany = companies.filter(function(company) {
+      //     if (company.start >= 1980 && company.start <= 1990) {
+      //       return true;
+      //     }
+      //   });
+      //   console.log(eCompany);
+      // ES6:
+      //   const eCompany = companies.filter(
+      //     company => company.start >= 1980 && company.start <= 1990
+      //   );
+      //   console.log(eCompany);
+      //
+      //例：找到至少存在了 10 年的公司;
+      // ES5:
+      //   const tenYearsCompany = companies.filter(function(company) {
+      //     if (company.end - company.start >= 10) {
+      //       return true;
+      //     }
+      //   });
+      //   console.log(tenYearsCompany);
+      // ES6:
+      const tenYearsCompany = companies.filter(
+        company => company.end - company.start >= 10
+      );
+      console.log(tenYearsCompany);
+
+      //----------------------------------------------------------------------------------------------------
+    </script>
+  </body>
+</html>
