@@ -28,10 +28,23 @@
        *  conditional(ternary) operator:
        *                 source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
        *                 Syntax: condition ? true return : false return
-       *                 1: ? => true
-       *                 2: : => false
+       *                 1: ? => true 时 return
+       *                 2: : => false 时 return
        */
 
+      /* 例题列表
+       * 例：在数组 companies 中对比 for循环  和 forEach循环。
+       * 例： filter VS for循环
+       * 例: 用 filter 来找到年龄大于 18 可以饮酒的人。
+       * 例: 用 filter 来找到所有是 retail 的公司。
+       * 例: 用 filter 来找到所有 80年代的公司。
+       * 例：找到至少存在了 10 年的公司;
+       * 例：将所有的公司名字放进一个单独的 数组 中。
+       * 例：根据公司起始年限大小进行排列。
+       * 例：算出来ages的和。
+       * 例：算出所有公司总共的年限。
+       * 例： combine Methods 合并使用多种 array 用法。
+       */
       const companies = [
         { name: "Company One", category: "Finance", start: 1981, end: 2004 },
         { name: "Company Two", category: "Retail", start: 1992, end: 2008 },
@@ -242,6 +255,14 @@
       //   0
       // );
       // console.log(companyTotalYear);
+      //
+      //例： combine Methods 合并使用多种 array 用法。
+      // const combined = ages
+      //   .map(age => age * 2)
+      //   .filter(age => age > 40)
+      //   .sort((a, b) => (a > b ? 1 : -1))
+      //   .reduce((total, a) => total + a, 0);
+      // console.log(combined);
     </script>
   </body>
 </html>
