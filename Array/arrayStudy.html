@@ -12,17 +12,24 @@
       /*方式:  1:forEach: array.forEach(function("value", "index", "index times array"){return 要查询的值});
        *
        *      2:filter: let || const var = array.filter(function(value, index, index times array)){if(conditation){return true}};
+       *                filter返回的数据是一个与原数组解构一直的数组。
        *
        *      3:map:    let || const var = array.map(function(value,index index times array)){return value};
+       *                map 返回的数据是单独被重装的一个数组。
        *
-       *      4:sort:
+       *      4:sort:   let || const var = array.sort(function(value1,value2){if(value1.prop >，<，= …… value2.prop){return 1;}else{return -1;}});
        *
-       *      5:reduce:
+       *      5:reduce: let || const var = array.reduce(function(total, value){return total + value.prop}, total's start value);
        */
 
       /* ES6
        *  let const var str = array.prop( (value, index, index times array) => value, index, index times array);
        *
+       *  conditional(ternary) operator:
+       *                 source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_Operator
+       *                 Syntax: condition ? true return : false return
+       *                 1: ? => true
+       *                 2: : => false
        */
 
       const companies = [
@@ -134,12 +141,107 @@
       // const companyName = companies.map(company => company.name);
       // console.log(companyName);
       // 例:找到所有存在十年或十年以上的公司的名称。
-      const companyLastTenYears = companies.map(function(company, index) {
-        // if (company.end - company.start >= 10) {
-        //   return company.name;
-        // }
-      });
-      console.log(companyLastTenYears);
+      //
+      // ES5：
+      //第一步：先将所有年限在十年和十年以上的公司用 filter 都找出来。
+      // const companyLastTenYears = companies.filter(function(TenYearsCompany) {
+      //   if (TenYearsCompany.end - TenYearsCompany.start >= 10) {
+      //     return true;
+      //   }
+      // });
+      //第二步： 再将所有已经找出的十年的公司利用 map 重新整合打印出来。
+      // const a = companyLastTenYears.map(function(company) {
+      //   return `company name: ${
+      //     company.name
+      //   }, company years: ${company.start}-${company.end} <br>`;
+      // });
+      // document.body.innerHTML = a;
+      // console.log(a);
+      //
+      // ES6：
+      // const companyLastTenYears = companies
+      //   .filter(company => company.end - company.start >= 10)
+      //   .map(
+      //     company =>
+      //       `company name: ${company.name} last: ${company.start}-${
+      //         company.end
+      //       }<br>`
+      //   );
+      // document.body.innerHTML = companyLastTenYears;
+      // console.log(companyLastTenYears);
+      //----------------------------------------------------------------------------------------------------
+      //
+      // sort
+      // 例：根据公司起始年限大小进行排列。
+      // ES5:
+      // const companyYears = companies.sort(function(a, b) {
+      //   if (a.start > b.start) {
+      //     return 1;
+      //   } else {
+      //     return -1;
+      //   }
+      // });
+      // console.log(companyYears);
+      //
+      // ES6 01:
+      // const companyYears = companies.sort((a, b) => a.start - b.start);
+      // console.log(companyYears);
+      //
+      // ES6 02:
+      // const companyYears = companies.sort((a, b) =>
+      //   a.start > b.start ? 1 : -1
+      // );
+      // console.log(companyYears);
+      //
+      // 例：根据年龄大小排列年龄
+      // ES5:
+      // const youngToOld = ages.sort(function(a, b) {
+      //   if (a > b) {
+      //     return 1;
+      //   } else {
+      //     return -1;
+      //   }
+      // });
+      // console.log(youngToOld);
+      // ES6:
+      // const youngToOld = ages.sort((a, b) => (a > b ? 1 : -1));
+      // console.log(youngToOld);
+      //----------------------------------------------------------------------------------------------------
+      //
+      // reduce:
+      // 例：算出来ages的和。
+      //
+      // ES5 不用 reduce 用 for 循环:
+      // let ageSum = 0;
+      // let i;
+      // for (i = 0; i < ages.length; i++) {
+      //   ageSum += ages[i];
+      // }
+      // console.log(ageSum);
+      //
+      // ES5 reduce:
+      // const ageSum = ages.reduce(function(total, age) {
+      //   return total + age;
+      // },0);
+      // console.log(ageSum);
+      //
+      // ES6 reduce:
+      // const ageSum = ages.reduce((total, age) => total + age, 0);
+      // console.log(ageSum);
+      //
+      // 例：算出所有公司总共的年限。
+      // ES5:
+      // const companyTotalYear = companies.reduce(function(total, company) {
+      //   return total + (company.end - company.start);
+      // }, 0);
+      // console.log(companyTotalYear);
+      //
+      // ES6:
+      // const companyTotalYear = companies.reduce(
+      //   (total, company) => total + (company.end - company.start),
+      //   0
+      // );
+      // console.log(companyTotalYear);
     </script>
   </body>
 </html>
