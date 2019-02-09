@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Arrow function study</title>
+  </head>
+  <body>
+    <h1>随机抽奖：</h1>
+    <p id="resault">点击下面按钮来看看你能不能中奖。</p>
+    <input type="button" id="checkWinNum" value="试试手气" />
+    <br />
+    <h1>秒表</h1>
+    <p id="clockBody">00 ：00</p>
+    <input type="button" id="startClockBtn" value="开始计时" />
+    <script>
+      //****** ES6 Arrow function
+      /* 知识点
+       *        表达式： 1：(argument) => 公式/计算; 括号内的 argument 少于两个时括号可以不用写。当箭头后出现多个表达式时可以用 大括号{} 来包括。 反则大括号可写可不写。
+       *                2：函数中 ？ 表示如果 true ：表示如果false。(见例题 1 随机抽奖)
+       *                3：箭头函数最后要返回值。
+       *                例： x => x*2; 等于 function(x){ return x*2; };
+       */
+
+      /*
+       * 例题：
+       * 1:随机抽奖。
+       * 2:计时器。
+       */
+
+      //
+      // 例：随机抽奖，点击按钮随机选取两个个 0 - 10 的数字，一个作为中将号码并显示在中奖信息中，一个作为用户抽的号码。
+      //     如果两个号码一直显示中奖，反则不中。
+
+      let resault = document.getElementById("resault");
+      let cheakWinNum = document.getElementById("checkWinNum");
+      checkWinNum.onclick = (num1, num2) => {
+        num1 = Math.floor(Math.random(0, 10) * 10);
+        num2 = Math.floor(Math.random(0, 10) * 10);
+
+        num1 === num2
+          ? (resault.innerHTML = `中奖号码是：${num1} 您的号码是${num2}。 恭喜您中奖了！`)
+          : (resault.innerHTML = `中奖号码是：${num1} 您的号码是${num2}。 对不起您没中奖`);
+      };
+      //
+      // 例: 计时器 制作一个秒表。
+      //
+      let clockBody = document.getElementById("clockBody");
+      let startClockBtn = document.getElementById("startClockBtn");
+      startClockBtn.onclick = function clock(ms, s, m, h) {
+        this.ms = 0;
+        this.s = 0;
+        this.m = 0;
+        this.h = 0;
+        setInterval(() => {
+          this.ms++;
+          if (this.ms == 59) {
+            this.s++;
+            this.ms = 0;
+          }
+          if (this.s == 59) {
+            this.m++;
+            this.s = 0;
+          }
+          if (this.m == 59) {
+            this.h++;
+            this.m = 0;
+          }
+          clockBody.innerHTML = `${this.h}${this.m} : ${this.s} : 毫秒：${
+            this.ms
+          }`;
+        }, 20);
+      };
+    </script>
+  </body>
+</html>
