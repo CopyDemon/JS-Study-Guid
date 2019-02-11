@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Palindrome Number</title>
+  </head>
+  <body>
+    <h1>
+      Determine whether an integer is a palindrome. <br />
+      An integer is a palindrome when it reads the same backward as forward.
+    </h1>
+    <h3>Example</h3>
+    <h4>Input: 121 Output: true</h4>
+    <h4>
+      Input: -121 Output: false Explanation: From left to right, it reads -121.
+      From right to left, it becomes 121-. Therefore it is not a palindrome.
+    </h4>
+    <h4>
+      Input: 10 Output: false Explanation: Reads 01 from right to left.
+      Therefore it is not a palindrome.
+    </h4>
+    <script>
+      let x = 121; // -121
+      //solution:1
+      let temp;
+      let tempX;
+      tempX = x.toString();
+      tempX = tempX.split("");
+      tempX = tempX.reverse();
+      if (tempX.indexOf("-") !== -1) {
+        return false;
+      } else {
+        tempX = tempX.join("");
+        temp = parseInt(tempX);
+        if (temp === x) {
+          return true;
+        } else if (temp !== x) {
+          return false;
+        }
+      }
+
+      // solution:2
+      //   if (x < 0) return false;
+      //   let i;
+      //   let tempX = x.toString();
+      //   let temp = "";
+      //   for (i = tempX.length - 1; i >= 0; i--) {
+      //     temp += tempX[i];
+      //   }
+      //   temp = parseInt(temp);
+      //   console.log(temp);
+      //   if (x === temp) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      //     //solution:3
+      //     if (x < 0) return false;
+
+      //     // reverse the string representation of x
+      //     const reverse = `${x}`.split('').reverse().join('');
+      //     // compare the value regardless of types
+      //     return x == reverse;
+      //
+      // solution 4: Math
+      //   if (x < 0) return false;
+
+      //   let temp;
+      //   let num = 0;
+      //   let sysNum = x;
+
+      //   while (sysNum !== 0) {
+      //     temp = sysNum % 10;
+      //     num = num * 10 + temp;
+      //     sysNum = Math.floor(sysNum / 10);
+      //   }
+
+      //   if (num === x) {
+      //     return true;
+      //   } else return false;
+    </script>
+  </body>
+</html>
