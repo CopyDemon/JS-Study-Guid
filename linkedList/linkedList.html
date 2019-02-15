@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>linked-list</title>
+  </head>
+  <body>
+    <script>
+      function Node(data) {
+        this.data = data;
+        this.next = null;
+      }
+
+      function LinkedList() {
+        this._length = 0;
+        this.head = null;
+      }
+
+      LinkedList.prototype.add = function(val) {
+        if (!val) {
+          throw new Error("Please pass in a value");
+        }
+        var node = new Node(val);
+        //if there is no head,set node to head of list
+        if (!this.head) {
+          this.head = node;
+          this._length += 1;
+          return this;
+        }
+        //if there is a head
+        var current = this.head;
+        while (current.next) {
+          current = current.next;
+        }
+        current.next = node;
+        this._length += 1;
+        return node;
+      };
+
+      var sll = new LinkedList();
+      sll.add(10);
+      sll.add(12);
+      console.log(sll);
+    </script>
+  </body>
+</html>
